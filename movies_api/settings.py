@@ -25,7 +25,7 @@ SECRET_KEY = 'eo^f2i$uj95)#es(nz0vp_phr_(6ti$(-n1oj$pe1@^(!u-=$i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['shrouded-garden-45371.herokuapp.com']
 
 # Application definition
 
