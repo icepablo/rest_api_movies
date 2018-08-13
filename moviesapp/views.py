@@ -1,28 +1,35 @@
 import requests
-from moviesapp.models import Movies,Comments
-from .serializers import MoviesSerializer,CommentsSerializer,AddSerializer
+
+from .serializers import MoviesSerializer, CommentsSerializer, AddSerializer
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from rest_framework import generics,status,viewsets
+from rest_framework import generics, status, viewsets
 
-class CommentsList(viewsets.ViewSetMixin,generics.ListAPIView):
-    serializer_class=CommentsSerializer
+from moviesapp.models import Movies, Comments
+
+
+class CommentsList(viewsets.ViewSetMixin, generics.ListAPIView):
+    serializer_class = CommentsSerializer
     queryset = Comments.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ['commented_movie']
 
-class AddComment(viewsets.ViewSetMixin,generics.CreateAPIView):
+
+class AddComment(viewsets.ViewSetMixin, generics.CreateAPIView):
     serializer_class = CommentsSerializer
 
-class MoviesList(viewsets.ViewSetMixin,generics.ListAPIView):
-    serializer_class=MoviesSerializer
+
+class MoviesList(viewsets.ViewSetMixin, generics.ListAPIView):
+    serializer_class = MoviesSerializer
     queryset = Movies.objects.all()
-    filter_backends = (DjangoFilterBackend,OrderingFilter,)
-    filter_fields = ['title','id','year','imdb_id','type']
+    filter_backends = (DjangoFilterBackend, OrderingFilter,)
+    filter_fields = ['title', 'id', 'year', 'imdb_id', 'type']
+
 
 class AddTitle(generics.CreateAPIView):
     serializer_class = AddSerializer
+
     def post(self, request):
         if request.method == 'POST':
             post_title=request.data['add']
@@ -33,7 +40,7 @@ class AddTitle(generics.CreateAPIView):
                 all_movies = Movies.objects.all()
                 try:
                     title = json_object['Title']
-                except(KeyError):
+                except KeyError:
                     return Response(data={'There is no movie: '+post_title}, status=status.HTTP_404_NOT_FOUND)
                 if not all_movies.filter(title__iexact=title):
                     m = Movies()
@@ -59,19 +66,19 @@ class AddTitle(generics.CreateAPIView):
                     m.type = json_object['Type']
                     try :
                         m.dvd = json_object['DVD']
-                    except(KeyError):
+                    except KeyError:
                         m.dvd = 'N/A'
                     try:
                         m.boxoffice = json_object['BoxOffice']
-                    except(KeyError):
+                    except KeyError:
                         m.boxoffice='N/A'
                     try:
                         m.production = json_object['Production']
-                    except(KeyError):
+                    except KeyError:
                         m.production = 'N/A'
                     try:
                         m.website = json_object['Website']
-                    except(KeyError):
+                    except KeyError:
                         m.website = 'N/A'
                     m.response = json_object['Response']
                     m.save()

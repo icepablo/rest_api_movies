@@ -25,9 +25,8 @@ SECRET_KEY = 'eo^f2i$uj95)#es(nz0vp_phr_(6ti$(-n1oj$pe1@^(!u-=$i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['rest-api-movies.herokuapp.com']
-#ALLOWED_HOSTS = ['*']
-# Application definition
+ALLOWED_HOSTS = ['rest-api-movies.herokuapp.com', '127.0.0.1']
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
